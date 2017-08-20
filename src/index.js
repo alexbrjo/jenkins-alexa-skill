@@ -2,18 +2,28 @@
 
 const Alexa = require('alexa-sdk');
 var api = require('./jenkinsRESTHandler.js');
+var request = require('sync-request');
 
-const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+const APP_ID = "amzn1.ask.skill.0afa38e5-8ae4-452f-9a01-ed077f3a7920"; 
 
 const handlers = {
     'LaunchRequest': function () {
-        this.emit('GetFact');
+        this.emit('Jobstatus');
     },
     'GetNewFactIntent': function () {
-        this.emit('GetFact');
+        this.emit('Jobstatus');
     },
     'Jobstatus': function () {
-        this.emit(':tell', "job not found");
+        var jobName = this.event.request.intent.slots.Job;
+        var fuzzyJobName = jobName.value.toLowerCase();
+        /* 
+            Use sync-request because we need a response in sync. 
+            Lambda will control time outs (currently 7s)
+        */
+        var raw = request('GET', 'http://alexjo.io/jenkins/job/' + fuzzyJobName + '/api/json');
+        var data = JSON.parse(raw.getBody('utf8'));
+        
+        this.emit(':tell', data.healthReport[0].description);
     },
     'AMAZON.HelpIntent': function () {
         const speechOutput = this.t('HELP_MESSAGE');

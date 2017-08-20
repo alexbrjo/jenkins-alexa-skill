@@ -1,1 +1,3 @@
-Jobstatus   what is the status of docker plugin
+Jobstatus	how is the job
+Jobstatus	how is the status of
+Jobstatus	what is the status of
