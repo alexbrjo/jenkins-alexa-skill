@@ -20,11 +20,12 @@ const handlers = {
             Use sync-request because we need a response in sync. 
             Lambda will control time outs (currently 7s)
         */
-        var raw = request('GET', 'http://alexjo.io/jenkins/job/' + fuzzyJobName + '/api/json');
+        var raw = request('GET', 'https://builds.apache.org/job/' + fuzzyJobName + '/api/json');
         var data = JSON.parse(raw.getBody('utf8'));
         
         this.emit(':tell', data.healthReport[0].description);
     },
+    'Jobinfolderstatus': function () {},
     'AMAZON.HelpIntent': function () {
         const speechOutput = this.t('HELP_MESSAGE');
         const reprompt = this.t('HELP_MESSAGE');
