@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+  This plugin exposes an API for the JenkinsStatus skill for Amazon Alexa
+</div>
