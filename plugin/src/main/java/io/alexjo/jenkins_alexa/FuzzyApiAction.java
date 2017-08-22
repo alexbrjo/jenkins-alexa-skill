@@ -1,6 +1,9 @@
 package hudson.plugins.hello_world;
 
 import hudson.model.Action;
+import hudson.model.Job;
+import hudson.model.Items;
+import jenkins.model.Jenkins;
 
 /**
  * Exposes a read only API for non-perfect uri's. Intended for 
@@ -12,6 +15,10 @@ public class FuzzyApiAction implements Action {
 
     public FuzzyApiAction() {
         
+    }
+    
+    public Job jobStatus (String fuzzyName) {
+        return Items.findNearest(Job.class, fuzzyName, Jenkins.getActiveInstance());
     }
     
     public String getDisplayName() {
